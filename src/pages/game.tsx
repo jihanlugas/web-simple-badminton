@@ -56,7 +56,7 @@ const Game = () => {
   }
 
   const handleAddPlayer = () => {
-    setPlayers(JSON.parse(localStorage.getItem('players')))
+    setPlayers(JSON.parse(localStorage.getItem('players') ? localStorage.getItem('players') : '[]'))
     setAddBar(false);
     setShowModalAddPlayer(!showModalAddPlayer)
   }

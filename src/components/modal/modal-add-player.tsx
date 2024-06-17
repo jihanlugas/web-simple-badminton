@@ -79,7 +79,7 @@ const ModalAddPlayer: NextPage<Props> = ({ show, onClickOverlay }) => {
                         </label>
                       </div>
                     </div>
-                    <div className='mb-4'>
+                    <div className=''>
                       <ButtonSubmit
                         label={'Save'}
                       />

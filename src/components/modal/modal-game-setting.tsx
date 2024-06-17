@@ -80,7 +80,7 @@ const ModalGameSetting: NextPage<Props> = ({ show, onClickOverlay }) => {
                         required
                       />
                     </div>
-                    <div className='mb-4'>
+                    <div className=''>
                       <ButtonSubmit
                         label={'Save'}
                       />
