@@ -61,7 +61,7 @@ const Game = () => {
     setShowModalAddPlayer(!showModalAddPlayer)
   }
 
-  const toggleDeletePlayer = (key:number) => {
+  const toggleDeletePlayer = (key: number) => {
     setDeletePlayer(key);
     setShowModalDeletePlayer(!showModalDeletePlayer);
   }
@@ -121,7 +121,7 @@ const Game = () => {
       <div className='p-4'>
         <div className='bg-white mb-4 p-4 rounded shadow'>
           <div className='text-xl flex items-center justify-between'>
-            <div className="">Game</div>
+            <div className="font-bold">Game</div>
             <div className='text-base relative inline-block' ref={refAdd}>
               <button onClick={() => setAddBar(!addBar)} className='flex items-center hover:bg-gray-100 rounded -m-2 p-2'>
                 <div className='flex justify-center items-center rounded h-6 w-6'>
@@ -176,7 +176,7 @@ const Game = () => {
               <div key={key} className='bg-white p-4 rounded shadow'>
                 <div className='w-full flex justify-between rounded items-center mb-4'>
                   <div className='text-left'>
-                    <div className='text-lg'>{player.name}</div>
+                    <div className='text-lg font-bold'>{player.name}</div>
                   </div>
                   <div>
                     <button type={'button'} className={'text-rose-500 font-bold rounded-full h-6 w-6 flex justify-center items-center'} onClick={() => toggleDeletePlayer(key)}>
@@ -238,7 +238,11 @@ const Game = () => {
                   <hr className="mb-4" />
                   <div className="flex justify-between items-center">
                     <div className="mr-2">Total Price</div>
-                    <div className={`font-bold ${player.paid ? 'text-green-500' : 'text-rose-500'}`}>{displayMoney(playerprice)}</div>
+                    {playerprice ? (
+                      <div className={`font-bold ${player.paid ? 'text-green-500' : 'text-rose-500'}`}>{displayMoney(playerprice)}</div>
+                    ) : (
+                      <div className={`font-bold `}>{displayMoney(playerprice)}</div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -248,13 +252,13 @@ const Game = () => {
         <div className='bg-white mb-4 p-4 rounded shadow'>
           <div className="text-lg font-bold mb-4">Summary</div>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-2'>
-            <div className="flex justify-between items-center font-bold">
+            <div className="flex justify-between items-center">
               <div>Total Paid</div>
-              <div className="text-green-500">{displayMoney(totalpaid)}</div>
+              <div className="text-green-500 font-bold">{displayMoney(totalpaid)}</div>
             </div>
-            <div className="flex justify-between items-center font-bold">
+            <div className="flex justify-between items-center">
               <div>Total Unpaid</div>
-              <div className="text-rose-500">{displayMoney(totalunpaid)}</div>
+              <div className="text-rose-500 font-bold">{displayMoney(totalunpaid)}</div>
             </div>
             <div className="flex justify-between items-center font-bold">
               <div>Total</div>

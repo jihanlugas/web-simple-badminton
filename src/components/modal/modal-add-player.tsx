@@ -19,7 +19,6 @@ const schema = Yup.object().shape({
 
 const ModalAddPlayer: NextPage<Props> = ({ show, onClickOverlay }) => {
 
-  const [closeDialog, setCloseDialog] = useState(true)
 
   const init: Player = {
     name: '',
@@ -35,9 +34,6 @@ const ModalAddPlayer: NextPage<Props> = ({ show, onClickOverlay }) => {
     players.sort((a, b) => a.name.localeCompare(b.name))
     localStorage.setItem('players', JSON.stringify(players))
     formikHelpers.resetForm()
-    if (closeDialog) {
-      onClickOverlay()
-    }
     notif.success('Player added successfully')
   }
   return (
@@ -65,19 +61,6 @@ const ModalAddPlayer: NextPage<Props> = ({ show, onClickOverlay }) => {
                         placeholder={'Player name'}
                         required
                       />
-                    </div>
-                    <div className="flex justify-end items-center mb-4">
-                      <div>
-                        <label className={'select-none w-full py-2 flex items-center justify-end'} >
-                          <span className='truncate'>{"Close dialog on save"}</span>
-                          <input
-                            className={'ml-4 mr-1 accent-primary-600 py-2 scale-150'}
-                            type={"checkbox"}
-                            checked={closeDialog}
-                            onChange={() => setCloseDialog(!closeDialog)}
-                          />
-                        </label>
-                      </div>
                     </div>
                     <div className=''>
                       <ButtonSubmit
