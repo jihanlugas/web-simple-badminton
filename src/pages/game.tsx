@@ -7,8 +7,8 @@ import { displayMoney, displayNumber } from "@/utils/formater";
 import Head from "next/head";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
-import { BsChevronDown } from "react-icons/bs";
-import { MdAdd, MdOutlineKeyboardArrowRight, MdRemove } from "react-icons/md";
+import { BsChevronDown, BsChevronRight } from "react-icons/bs";
+import { MdAdd, MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowDown, MdRemove } from "react-icons/md";
 import { TbTrash } from "react-icons/tb";
 import CheckboxField from "@/components/formik/checkbox-field";
 import ModalDelete from "@/components/modal/modal-delete";
@@ -93,11 +93,11 @@ const Game = () => {
   }
 
   const handleResetData = () => {
-    localStorage.removeItem('players')
-    localStorage.removeItem('game-setting')
+    localStorage.clear()
     setPlayers([])
     setGameSetting({ normalGamePrice: 0, rubberGamePrice: 0, ballPrice: 0 })
     setAddBar(false);
+    setAccordion([]);
   }
 
   useEffect(() => {
@@ -134,8 +134,8 @@ const Game = () => {
             <div className="font-bold">Game</div>
             <div className='text-base relative inline-block' ref={refAdd}>
               <button onClick={() => setAddBar(!addBar)} className='flex items-center hover:bg-gray-100 rounded -m-2 p-2'>
-                <div className='flex justify-center items-center rounded h-6 w-6'>
-                  <BsChevronDown size={'1.2em'} />
+                <div className='flex justify-center items-center rounded size-8'>
+                  <MdOutlineKeyboardArrowDown size={'1.5em'} />
                 </div>
               </button>
               <div className={`absolute right-0 mt-2 w-56 rounded-md overflow-hidden origin-top-right shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none duration-300 ease-in-out ${!addBar && 'scale-0 shadow-none ring-0'}`}>
@@ -184,22 +184,22 @@ const Game = () => {
             }
             return (
               <div key={key} className='bg-white p-4 rounded shadow'>
-                <button className='w-full flex justify-between rounded items-center' onClick={() => toggleAccordion(key)}>
-                  <div className='text-left'>
-                    <div className='text-lg font-bold capitalize'>
-                    {player.name}
+                <div className="flex items-center">
+                  {/* <button type={'button'} className={'text-rose-500 flex justify-center items-center size-8'} onClick={() => toggleDeletePlayer(key)}>
+                    <TbTrash className='' size={'1.2rem'} />
+                  </button> */}
+                  <button className='w-full flex justify-between rounded items-center' onClick={() => toggleAccordion(key)}>
+                    <div className='flex items-start font-bold capitalize'>
+                      {player.name}
                     </div>
-                  </div>
-                  <div className="flex items-center">
-                    {/* <button type={'button'} className={'text-rose-500 font-bold rounded-full h-6 w-6 flex justify-center items-center'} onClick={() => toggleDeletePlayer(key)}>
-                      <TbTrash className='' size={'1.5rem'} />
-                    </button> */}
-                    {player.paid && <span className="text-xs font-bold bg-green-500 text-white px-2 py-1 rounded-full mr-2 uppercase">paid</span>}
-                    <div className='flex justify-center items-center h-8 w-8'>
-                      <MdOutlineKeyboardArrowRight className={`rotate-0 duration-300 ${accordion.includes(key) && 'rotate-90'}`} size={'1.5em'} />
+                    <div className="flex items-center">
+                      {player.paid && <span className="text-xs font-bold bg-green-500 text-white px-2 py-1 rounded-full mr-2 uppercase">paid</span>}
+                      <div className='flex justify-center items-center size-8'>
+                        <MdOutlineKeyboardArrowRight className={`rotate-0 duration-300 ${accordion.includes(key) && 'rotate-90'}`} size={'1.5rem'} />
+                      </div>
                     </div>
-                  </div>
-                </button>
+                  </button>
+                </div>
                 <div className={`duration-300 overflow-hidden ${accordion.includes(key) ? 'max-h-60 ' : 'max-h-0 '}`}>
                   <div className="flex justify-between items-center mb-4 mt-4">
                     <div>Normal Game</div>
