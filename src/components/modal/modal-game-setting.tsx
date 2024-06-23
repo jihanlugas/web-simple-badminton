@@ -6,6 +6,7 @@ import { GameSetting } from "@/types/game";
 import { Form, Formik, FormikHelpers, FormikValues } from "formik";
 import TextField from "@/components/formik/text-field";
 import ButtonSubmit from "@/components/formik/button-submit";
+import { MdClose } from "react-icons/md";
 
 type Props = {
   show: boolean;
@@ -37,8 +38,11 @@ const ModalGameSetting: NextPage<Props> = ({ show, onClickOverlay }) => {
     <>
       <Modal show={show} onClickOverlay={onClickOverlay} layout={'sm:max-w-lg'}>
         <div className="p-4">
-          <div className={'text-xl mb-4'}>
-            {'Game Settings '}
+          <div className={'text-xl mb-4 flex justify-between items-center'}>
+            <div>{'Game Settings '}</div>
+            <button type={'button'} className={'text-rose-500 disabled:bg-gray-400 font-bold rounded-full size-8 flex justify-center items-center'} onClick={() => onClickOverlay()}>
+              <MdClose className='' size={'1.5rem'} />
+            </button>
           </div>
           <div>
             <Formik

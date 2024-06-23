@@ -8,7 +8,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import { BsChevronDown } from "react-icons/bs";
-import { MdAdd, MdRemove } from "react-icons/md";
+import { MdAdd, MdOutlineKeyboardArrowRight, MdRemove } from "react-icons/md";
 import { TbTrash } from "react-icons/tb";
 import CheckboxField from "@/components/formik/checkbox-field";
 import ModalDelete from "@/components/modal/modal-delete";
@@ -25,6 +25,15 @@ const Game = () => {
   const [showModalAddPlayer, setShowModalAddPlayer] = useState<boolean>(false);
   const [showModalDeletePlayer, setShowModalDeletePlayer] = useState<boolean>(false);
   const [deletePlayer, setDeletePlayer] = useState<number>(null);
+  const [accordion, setAccordion] = useState<number[]>([]);
+
+  const toggleAccordion = (key) => {
+    if (accordion.includes(key)) {
+      setAccordion(accordion.filter((item) => item !== key));
+    } else {
+      setAccordion([...accordion, key]);
+    }
+  }
 
   let total = 0
   let totalpaid = 0
@@ -59,6 +68,7 @@ const Game = () => {
     setPlayers(JSON.parse(localStorage.getItem('players') ? localStorage.getItem('players') : '[]'))
     setAddBar(false);
     setShowModalAddPlayer(!showModalAddPlayer)
+    setAccordion([])
   }
 
   const toggleDeletePlayer = (key: number) => {
@@ -174,19 +184,24 @@ const Game = () => {
             }
             return (
               <div key={key} className='bg-white p-4 rounded shadow'>
-                <div className='w-full flex justify-between rounded items-center mb-4'>
+                <button className='w-full flex justify-between rounded items-center' onClick={() => toggleAccordion(key)}>
                   <div className='text-left'>
-                    <div className='text-lg font-bold'>{player.name}</div>
+                    <div className='text-lg font-bold capitalize'>
+                    {player.name}
+                    </div>
                   </div>
-                  <div>
-                    <button type={'button'} className={'text-rose-500 font-bold rounded-full h-6 w-6 flex justify-center items-center'} onClick={() => toggleDeletePlayer(key)}>
+                  <div className="flex items-center">
+                    {/* <button type={'button'} className={'text-rose-500 font-bold rounded-full h-6 w-6 flex justify-center items-center'} onClick={() => toggleDeletePlayer(key)}>
                       <TbTrash className='' size={'1.5rem'} />
-                    </button>
+                    </button> */}
+                    {player.paid && <span className="text-xs font-bold bg-green-500 text-white px-2 py-1 rounded-full mr-2 uppercase">paid</span>}
+                    <div className='flex justify-center items-center h-8 w-8'>
+                      <MdOutlineKeyboardArrowRight className={`rotate-0 duration-300 ${accordion.includes(key) && 'rotate-90'}`} size={'1.5em'} />
+                    </div>
                   </div>
-                </div>
-                <hr className="mb-4" />
-                <div className='w-full text-base'>
-                  <div className="flex justify-between items-center mb-4">
+                </button>
+                <div className={`duration-300 overflow-hidden ${accordion.includes(key) ? 'max-h-60 ' : 'max-h-0 '}`}>
+                  <div className="flex justify-between items-center mb-4 mt-4">
                     <div>Normal Game</div>
                     <div className="flex items-center">
                       <button type={'button'} className={'text-gray-50 bg-rose-400 disabled:bg-gray-400 font-bold rounded-full h-6 w-6 flex justify-center items-center'} onClick={() => handleActionPlayer(key, { ...player, normalGame: player.normalGame - 1 })} disabled={player.normalGame === 0}>
@@ -251,7 +266,12 @@ const Game = () => {
         </div>
         <div className='bg-white mb-4 p-4 rounded shadow'>
           <div className="text-lg font-bold mb-4">Summary</div>
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-2'>
+          <div className='grid grid-cols-1 gap-2'>
+            <div className="flex justify-between items-center">
+              <div>Total Player</div>
+              <div className="font-bold">{players.length}</div>
+            </div>
+            <hr className="mb-4" />
             <div className="flex justify-between items-center">
               <div>Total Paid</div>
               <div className="text-green-500 font-bold">{displayMoney(totalpaid)}</div>

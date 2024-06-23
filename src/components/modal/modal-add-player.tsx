@@ -7,6 +7,9 @@ import { Form, Formik, FormikHelpers, FormikValues } from "formik";
 import TextField from "@/components/formik/text-field";
 import ButtonSubmit from "@/components/formik/button-submit";
 import notif from "@/utils/notif";
+import { MdClose } from "react-icons/md";
+import { IoCloseSharp } from "react-icons/io5";
+
 
 type Props = {
   show: boolean;
@@ -40,8 +43,11 @@ const ModalAddPlayer: NextPage<Props> = ({ show, onClickOverlay }) => {
     <>
       <Modal show={show} onClickOverlay={onClickOverlay} layout={'sm:max-w-lg'}>
         <div className="p-4">
-          <div className={'text-xl mb-4'}>
-            {'Add Player'}
+          <div className={'text-xl mb-4 flex justify-between items-center'}>
+            <div>{'Add Player'}</div>
+            <button type={'button'} className={'text-rose-500 disabled:bg-gray-400 font-bold rounded-full size-8 flex justify-center items-center'} onClick={() => onClickOverlay()}>
+              <MdClose className='' size={'1.5rem'} />
+            </button>
           </div>
           <div>
             <Formik
