@@ -36,7 +36,8 @@ const Game = () => {
   }
 
   let total = 0
-  let totalpaid = 0
+  let totalcash = 0
+  let totaltransfer = 0
   let totalunpaid = 0
 
   useEffect(() => {
@@ -82,6 +83,7 @@ const Game = () => {
     localStorage.setItem('players', JSON.stringify(newPlayers))
     setPlayers(JSON.parse(localStorage.getItem('players')))
     toggleDeletePlayer(null)
+    setAccordion([]);
     notif.success('Player deleted successfully')
   }
 
@@ -177,30 +179,40 @@ const Game = () => {
           {players.map((player, key) => {
             let playerprice = (player.normalGame * gameSetting.normalGamePrice) + (player.rubberGame * gameSetting.rubberGamePrice) + (player.ball * gameSetting.ballPrice)
             total += playerprice
-            if (player.paid) {
-              totalpaid += playerprice
-            } else {
-              totalunpaid += playerprice
+            switch (player.paymentMethod) {
+              case 'cash':
+                totalcash += playerprice
+                break;
+              case 'transfer':
+                totaltransfer += playerprice
+              default:
+                totalunpaid += playerprice
+                break;
             }
             return (
               <div key={key} className='bg-white p-4 rounded shadow'>
                 <div className="flex items-center">
-                  {/* <button type={'button'} className={'text-rose-500 flex justify-center items-center size-8'} onClick={() => toggleDeletePlayer(key)}>
-                    <TbTrash className='' size={'1.2rem'} />
-                  </button> */}
-                  <button className='w-full flex justify-between rounded items-center' onClick={() => toggleAccordion(key)}>
-                    <div className='flex items-start font-bold capitalize'>
-                      {player.name}
-                    </div>
+                  <div className='w-full flex justify-between rounded items-center'>
                     <div className="flex items-center">
-                      {player.paid && <span className="text-xs font-bold bg-green-500 text-white px-2 py-1 rounded-full mr-2 uppercase">paid</span>}
-                      <div className='flex justify-center items-center size-8'>
-                        <MdOutlineKeyboardArrowRight className={`rotate-0 duration-300 ${accordion.includes(key) && 'rotate-90'}`} size={'1.5rem'} />
+                      <div className='flex items-start font-bold capitalize mr-2'>
+                        {player.name}
                       </div>
+                      <button type={'button'} className={'text-rose-500 flex justify-center items-center size-8'} onClick={() => toggleDeletePlayer(key)}>
+                        <TbTrash className='' size={'1.2rem'} />
+                      </button>
                     </div>
-                  </button>
+
+                    <div className="flex items-center">
+                      {player.paymentMethod && <span className="text-xs font-bold bg-green-500 text-white px-2 py-1 rounded-full mr-4 uppercase">{player.paymentMethod}</span>}
+                      <button onClick={() => toggleAccordion(key)} className='flex items-center hover:bg-gray-100 rounded -m-2 p-2'>
+                        <div className='flex justify-center items-center rounded size-8'>
+                          <MdOutlineKeyboardArrowRight className={`rotate-0 duration-300 ${accordion.includes(key) && 'rotate-90'}`} size={'1.5rem'} />
+                        </div>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className={`duration-300 overflow-hidden ${accordion.includes(key) ? 'max-h-60 ' : 'max-h-0 '}`}>
+                <div className={`duration-300 overflow-hidden ${accordion.includes(key) ? 'max-h-80 ' : 'max-h-0 '}`}>
                   <div className="flex justify-between items-center mb-4 mt-4">
                     <div>Normal Game</div>
                     <div className="flex items-center">
@@ -237,15 +249,26 @@ const Game = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="flex justify-end items-center mb-4">
+                  <div className="text-right mb-4">
                     <div>
                       <label className={'select-none w-full py-2 flex items-center justify-end'} >
-                        <span className='truncate'>{"Paid"}</span>
+                        <span className='truncate'>{"Cash"}</span>
                         <input
                           className={'ml-4 mr-1 accent-primary-600 py-2 scale-150'}
                           type={"checkbox"}
-                          checked={player.paid}
-                          onChange={() => handleActionPlayer(key, { ...player, paid: !player.paid })}
+                          checked={player.paymentMethod === 'cash'}
+                          onChange={() => handleActionPlayer(key, { ...player, paymentMethod: player.paymentMethod === 'cash' ? '' : 'cash' })}
+                        />
+                      </label>
+                    </div>
+                    <div>
+                      <label className={'select-none w-full py-2 flex items-center justify-end'} >
+                        <span className='truncate'>{"Transfer"}</span>
+                        <input
+                          className={'ml-4 mr-1 accent-primary-600 py-2 scale-150'}
+                          type={"checkbox"}
+                          checked={player.paymentMethod === 'transfer'}
+                          onChange={() => handleActionPlayer(key, { ...player, paymentMethod: player.paymentMethod === 'transfer' ? '' : 'transfer' })}
                         />
                       </label>
                     </div>
@@ -254,7 +277,7 @@ const Game = () => {
                   <div className="flex justify-between items-center">
                     <div className="mr-2">Total Price</div>
                     {playerprice ? (
-                      <div className={`font-bold ${player.paid ? 'text-green-500' : 'text-rose-500'}`}>{displayMoney(playerprice)}</div>
+                      <div className={`font-bold ${player.paymentMethod !== '' ? 'text-green-500' : 'text-rose-500'}`}>{displayMoney(playerprice)}</div>
                     ) : (
                       <div className={`font-bold `}>{displayMoney(playerprice)}</div>
                     )}
@@ -271,15 +294,25 @@ const Game = () => {
               <div>Total Player</div>
               <div className="font-bold">{players.length}</div>
             </div>
-            <hr className="mb-4" />
+            <hr className="mb-2" />
             <div className="flex justify-between items-center">
-              <div>Total Paid</div>
-              <div className="text-green-500 font-bold">{displayMoney(totalpaid)}</div>
+              <div>Total cash</div>
+              <div className="font-bold">{displayMoney(totalcash)}</div>
             </div>
             <div className="flex justify-between items-center">
-              <div>Total Unpaid</div>
-              <div className="text-rose-500 font-bold">{displayMoney(totalunpaid)}</div>
+              <div>Total transfer</div>
+              <div className="font-bold">{displayMoney(totaltransfer)}</div>
             </div>
+            <hr className="mb-2" />
+            <div className="flex justify-between items-center">
+              <div>Total paid</div>
+              <div className="font-bold">{displayMoney(totalcash + totaltransfer)}</div>
+            </div>
+            <div className="flex justify-between items-center">
+              <div>Total unpaid</div>
+              <div className="font-bold">{displayMoney(totalunpaid)}</div>
+            </div>
+            <hr className="mb-2" />
             <div className="flex justify-between items-center font-bold">
               <div>Total</div>
               <div>{displayMoney(total)}</div>

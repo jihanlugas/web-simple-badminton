@@ -28,7 +28,7 @@ const ModalAddPlayer: NextPage<Props> = ({ show, onClickOverlay }) => {
     normalGame: 0,
     rubberGame: 0,
     ball: 0,
-    paid: false
+    paymentMethod: '',
   }
 
   const handleSubmit = (values: FormikValues, formikHelpers: FormikHelpers<Player>) => {

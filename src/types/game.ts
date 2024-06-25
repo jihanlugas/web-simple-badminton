@@ -10,5 +10,5 @@ export declare interface Player {
   normalGame: number;
   rubberGame: number;
   ball: number;
-  paid: boolean;
+  paymentMethod: string;
 }
