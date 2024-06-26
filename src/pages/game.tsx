@@ -204,7 +204,7 @@ const Game = () => {
 
                     <div className="flex items-center">
                       {player.paymentMethod && <span className="text-xs font-bold bg-green-500 text-white px-2 py-1 rounded-full mr-4 uppercase">{player.paymentMethod}</span>}
-                      <button onClick={() => toggleAccordion(key)} className='flex items-center hover:bg-gray-100 rounded -m-2 p-2'>
+                      <button onClick={() => toggleAccordion(key)} className='flex items-center bg-gray-100 rounded -m-2 p-2'>
                         <div className='flex justify-center items-center rounded size-8'>
                           <MdOutlineKeyboardArrowRight className={`rotate-0 duration-300 ${accordion.includes(key) && 'rotate-90'}`} size={'1.5rem'} />
                         </div>
