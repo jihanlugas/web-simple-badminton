@@ -250,8 +250,8 @@ const Game = () => {
                     </div>
                   </div>
                   <div className="text-right mb-4">
-                    <div>
-                      <label className={'select-none w-full py-2 flex items-center justify-end'} >
+                    <div className="flex justify-end">
+                      <label className={'w-32 select-none py-2 flex items-center justify-end cursor-pointermb-2'} >
                         <span className='truncate'>{"Cash"}</span>
                         <input
                           className={'ml-4 mr-1 accent-primary-600 py-2 scale-150'}
@@ -261,8 +261,8 @@ const Game = () => {
                         />
                       </label>
                     </div>
-                    <div>
-                      <label className={'select-none w-full py-2 flex items-center justify-end'} >
+                    <div className="flex justify-end">
+                      <label className={'w-32 select-none py-2 flex items-center justify-end cursor-pointermb-2'} >
                         <span className='truncate'>{"Transfer"}</span>
                         <input
                           className={'ml-4 mr-1 accent-primary-600 py-2 scale-150'}
@@ -291,31 +291,30 @@ const Game = () => {
           <div className="text-lg font-bold mb-4">Summary</div>
           <div className='grid grid-cols-1 gap-2'>
             <div className="flex justify-between items-center">
-              <div>Total Player</div>
-              <div className="font-bold">{players.length}</div>
-            </div>
-            <hr className="mb-2" />
-            <div className="flex justify-between items-center">
-              <div>Total cash</div>
-              <div className="font-bold">{displayMoney(totalcash)}</div>
+              <div>Cash</div>
+              <div className="">{displayMoney(totalcash)}</div>
             </div>
             <div className="flex justify-between items-center">
-              <div>Total transfer</div>
-              <div className="font-bold">{displayMoney(totaltransfer)}</div>
+              <div>Transfer</div>
+              <div className="">{displayMoney(totaltransfer)}</div>
             </div>
-            <hr className="mb-2" />
             <div className="flex justify-between items-center">
               <div>Total paid</div>
-              <div className="font-bold">{displayMoney(totalcash + totaltransfer)}</div>
+              <div className="text-green-500">{displayMoney(totalcash + totaltransfer)}</div>
             </div>
             <div className="flex justify-between items-center">
               <div>Total unpaid</div>
-              <div className="font-bold">{displayMoney(totalunpaid)}</div>
+              <div className="text-rose-500">{displayMoney(totalunpaid)}</div>
             </div>
             <hr className="mb-2" />
             <div className="flex justify-between items-center font-bold">
               <div>Total</div>
               <div>{displayMoney(total)}</div>
+            </div>
+            <hr className="mb-2" />
+            <div className="flex justify-between items-center font-bold">
+              <div>Players</div>
+              <div className="">{players.length}</div>
             </div>
           </div>
         </div>
